@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from "../assets/mishmash-logo.png";
 import landingImg from "../assets/landing-img.png";
 import { Button, Input } from "@material-tailwind/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { login } from "../api/auth";
 import Loader from "../components/Loader";
@@ -10,6 +10,7 @@ import { setCookie } from "../utils/cookieHandler";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     identifier: "",
     password: "",
@@ -29,8 +30,10 @@ const Login = () => {
       const response = await login(formData);
       setIsLoading(true);
       setCookie("token", response.token);
+
+      const from = location.state?.from?.pathname || "/feed";
       setTimeout(() => {
-        navigate("/feed");
+        navigate(from, { replace: true });
       }, 1500);
     } catch (error) {
       setIsLoading(false);

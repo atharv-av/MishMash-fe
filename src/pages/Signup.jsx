@@ -29,9 +29,11 @@ const Signup = () => {
     try {
       const response = await signup(formData);
       setIsLoading(true);
-      setCookie("token", response.token)
+      setCookie("token", response.token);
+
+      const from = location.state?.from?.pathname || "/feed";
       setTimeout(() => {
-        navigate("/feed");
+        navigate(from, { replace: true });
       }, 1500);
     } catch (error) {
       setButtonText("Sign up");
