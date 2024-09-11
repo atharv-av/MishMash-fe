@@ -12,11 +12,11 @@ const NewPost = () => {
       />
       <div className="flex flex-row items-center justify-between w-full">
         <div className="flex flex-row items-center gap-6">
-          <div className="flex items-center cursor-pointer gap-1 hover:text-blue-500 hover:font-semibold">
+          <div className="flex items-center cursor-pointer gap-1 hover:text-blue-500 hover:scale-110 transition duration-150 ease-in-out">
             <Image className="h-5 w-5" />
             <p>Frame</p>
           </div>
-          <div className="flex items-center cursor-pointer gap-1 hover:text-blue-500 hover:font-semibold">
+          <div className="flex items-center cursor-pointer gap-1 hover:text-blue-500 hover:scale-110 transition duration-150 ease-in-out">
             <Clapperboard className="h-5 w-5" />
             <p>Clip</p>
           </div>

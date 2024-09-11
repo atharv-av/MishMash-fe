@@ -1,6 +1,25 @@
-import { EllipsisVertical, Heart, MessageCircle, Send } from "lucide-react";
+import {
+  EllipsisVertical,
+  Heart,
+  MessageCircle,
+  Pencil,
+  Send,
+  Trash2,
+} from "lucide-react";
 import placeholder from "../assets/placeholder.png";
 import React from "react";
+
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+} from "@material-tailwind/react";
 
 const data = [
   {
@@ -26,6 +45,9 @@ const data = [
 ];
 
 const Post = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(!open);
+
   return (
     <div className="mt-4 flex flex-col items-center gap-3 lg:w-11/12 p-4 bg-orange-100 rounded-lg">
       <div className="flex flex-row items-center w-full justify-between">
@@ -43,10 +65,49 @@ const Post = () => {
             <p className="text-sm font-normal text-gray-600">2 hours ago</p>
           </div>
         </div>
-        <EllipsisVertical
-          size={32}
-          className="border-2 border-black/40 p-1 rounded-full cursor-pointer"
-        />
+        <Menu>
+          <MenuHandler>
+            <EllipsisVertical
+              size={32}
+              className="border-2 border-black/40 p-1 rounded-full cursor-pointer"
+            />
+          </MenuHandler>
+          <MenuList>
+            <MenuItem className="flex items-center justify-between text-blue-500">
+              <p>Edit</p>
+              <Pencil size={18} />
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleOpen()}
+              className="flex items-center justify-between text-red-500"
+            >
+              <p>Delete</p>
+              <Trash2 size={18} />
+            </MenuItem>
+          </MenuList>
+        </Menu>
+        <Dialog open={open} handler={handleOpen} className="p-6">
+          <DialogHeader>Do you want delete this post?</DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="text"
+              color="black"
+              onClick={handleOpen}
+              className="mr-1"
+            >
+              <span>Cancel</span>
+            </Button>
+            <Button
+              variant="gradient"
+              color="red"
+              onClick={() => {
+                handleOpen();
+              }}
+            >
+              <span>Confirm</span>
+            </Button>
+          </DialogFooter>
+        </Dialog>
       </div>
       <p className="font-normal text-lg">
         lorem ipsum dolor sit ammet lorem ipsum dolor sit ammet!lorem ipsum

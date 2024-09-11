@@ -13,14 +13,13 @@ import {
   Settings,
   UserRound,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import SidebarHeader from "./SidebarHeader";
 
 import {
   Button,
   Dialog,
   DialogHeader,
-  DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
 import { deleteCookie } from "../utils/cookieHandler";
@@ -29,6 +28,7 @@ import { useState } from "react";
 function Sidebar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
 
   const handleOpen = () => setOpen(!open);
 
@@ -36,31 +36,31 @@ function Sidebar() {
     {
       label: "Home",
       icon: <House />,
-      target: "/",
+      target: "/home",
       action: () => {},
     },
     {
       label: "Profile",
       icon: <UserRound />,
-      target: "/",
+      target: "/myprofile",
       action: () => {},
     },
     {
       label: "Clips",
       icon: <Clapperboard />,
-      target: "/",
+      target: "/clips",
       action: () => {},
     },
     {
       label: "Messages",
       icon: <Mail />,
-      target: "/",
+      target: "/messages",
       action: () => {},
     },
     {
       label: "Settings",
       icon: <Settings />,
-      target: "/",
+      target: "/settings",
       action: () => {},
     },
     {
@@ -71,6 +71,7 @@ function Sidebar() {
       },
     },
   ];
+
   return (
     <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
       <div className="mb-2 p-4">
@@ -79,19 +80,26 @@ function Sidebar() {
         </Typography>
       </div>
       <List>
-        {menuItems.map((item, index) => (
-          <Link
-            key={index}
-            to={item.target}
-            onClick={item.action}
-            className="text-black group-hover:text-white font-semibold"
-          >
-            <ListItem className="text-black hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white">
-              <ListItemPrefix>{item.icon}</ListItemPrefix>
-              {item.label}
-            </ListItem>
-          </Link>
-        ))}
+        {menuItems.map((item, index) => {
+          const isActive = location.pathname === item.target;
+          return (
+            <Link
+              key={index}
+              to={item.target}
+              onClick={item.action}
+              className={`text-black group-hover:text-white font-semibold`}
+            >
+              <ListItem
+                className={`text-black hover:scale-105 transition duration-150 ease-in-out hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white ${
+                  isActive ? "bg-blue-500 text-white scale-105" : ""
+                }`}
+              >
+                <ListItemPrefix>{item.icon}</ListItemPrefix>
+                {item.label}
+              </ListItem>
+            </Link>
+          );
+        })}
         <Dialog open={open} handler={handleOpen} className="p-6">
           <DialogHeader>Do you want to log out?</DialogHeader>
           <DialogFooter>
