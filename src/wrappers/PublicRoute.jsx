@@ -1,5 +1,6 @@
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+/* eslint-disable react/prop-types */
+
+import { Navigate } from 'react-router-dom';
 import { getCookie } from '../utils/cookieHandler';
 
 const PublicRoute = ({ children }) => {

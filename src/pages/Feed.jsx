@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../wrappers/Layout";
 import SearchBar from "../components/SearchBar";
 import NewPost from "../components/NewPost";

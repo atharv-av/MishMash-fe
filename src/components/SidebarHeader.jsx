@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../assets/mishmash-logo.png";
 import placeholder from "../assets/placeholder.png";
 

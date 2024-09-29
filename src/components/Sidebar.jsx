@@ -28,7 +28,7 @@ import { useState } from "react";
 function Sidebar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation(); // Get the current location
+  const location = useLocation();
 
   const handleOpen = () => setOpen(!open);
 

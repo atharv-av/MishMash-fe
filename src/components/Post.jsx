@@ -7,13 +7,12 @@ import {
   Trash2,
 } from "lucide-react";
 import placeholder from "../assets/placeholder.png";
-import React from "react";
+import { useState } from "react";
 
 import {
   Button,
   Dialog,
   DialogHeader,
-  DialogBody,
   DialogFooter,
   Menu,
   MenuHandler,
@@ -45,11 +44,11 @@ const data = [
 ];
 
 const Post = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
   return (
-    <div className="mt-4 flex flex-col items-center gap-3 lg:w-11/12 p-4 bg-orange-100 rounded-lg">
+    <div className="mt-4 flex flex-col items-center gap-3 lg:w-11/12 p-4 bg-blue-50 rounded-lg">
       <div className="flex flex-row items-center w-full justify-between">
         <div className="flex flex-row items-center gap-3">
           <img

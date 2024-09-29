@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import logo from "../assets/mishmash-logo.png";
 import landingImg from "../assets/landing-img.png";
 import { Button, Input } from "@material-tailwind/react";
@@ -31,7 +31,7 @@ const Login = () => {
       setIsLoading(true);
       setCookie("token", response.token);
 
-      const from = location.state?.from?.pathname || "/feed";
+      const from = location.state?.from?.pathname || "/home";
       setTimeout(() => {
         navigate(from, { replace: true });
       }, 1500);

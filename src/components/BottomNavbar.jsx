@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Home, Search, PlusSquare, User, Clapperboard } from "lucide-react";
 import { Button } from "@material-tailwind/react";
 

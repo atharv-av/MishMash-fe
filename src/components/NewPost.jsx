@@ -1,6 +1,5 @@
 import { Button, Input } from "@material-tailwind/react";
 import { Clapperboard, Image } from "lucide-react";
-import React from "react";
 
 const NewPost = () => {
   return (

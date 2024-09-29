@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import logo from "../assets/mishmash-logo.png";
 import landingImg from "../assets/landing-img.png";
 import Loader from "../components/Loader";

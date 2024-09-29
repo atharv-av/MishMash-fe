@@ -1,9 +1,11 @@
-import React from 'react'
 import Layout from '../wrappers/Layout'
+import ProfileDetails from '../components/ProfileDetails'
 
 const MyProfile = () => {
   return (
-    <Layout>MyProfile</Layout>
+    <Layout>
+        <ProfileDetails />
+    </Layout>
   )
 }
 

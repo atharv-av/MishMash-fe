@@ -1,5 +1,4 @@
 import { Button } from "@material-tailwind/react";
-import React from "react";
 import placeholder from "../assets/placeholder.png";
 
 const suggestions = [
@@ -23,7 +22,7 @@ const Suggestions = () => {
       <p className="font-bold text-2xl">Suggestions</p>
       {suggestions.map((user, index) => (
         <div key={index} className="flex flex-row items-center justify-between">
-          <div className="flex flex-row items-center justify-center gap-1">
+          <div className="flex flex-row items-center justify-center gap-1 cursor-pointer">
             <img src={user.profilePicture} alt="User" width={40} />
             <p className="font-semibold lg:text-base">{user.name}</p>
           </div>
