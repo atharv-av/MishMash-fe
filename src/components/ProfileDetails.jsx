@@ -84,7 +84,7 @@ const ProfileDetails = () => {
   
 
   return (
-    <div className="flex flex-row items-center justify-center gap-8">
+    <div className="flex bg-blue-200 md:w-2/3 mx-auto p-5 gap-5 rounded-2xl md:flex-row flex-col items-center justify-evenly">
       <Avatar
         size="xxl"
         src={user?.user.profilePicture || placeholder}

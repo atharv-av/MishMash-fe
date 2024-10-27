@@ -5,6 +5,7 @@ import Feed from "../pages/Feed";
 import ProtectedRoute from "../wrappers/ProtectedRoute";
 import PublicRoute from "../wrappers/PublicRoute";
 import MyProfile from "../pages/MyProfile";
+import UserProfile from "../pages/UserProfile";
 
 const AppRoutes = () => {
   return (
@@ -39,6 +40,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <MyProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile/:id"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
             </ProtectedRoute>
           }
         />

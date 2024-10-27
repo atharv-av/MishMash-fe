@@ -52,7 +52,24 @@ export const editUserProfile = async (userId, formData) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error updating profile:", error.response?.data || error.message);
+    console.error(
+      "Error updating profile:",
+      error.response?.data || error.message
+    );
     throw error;
   }
+};
+
+export const followOrUnfollow = async (targetId) => {
+  const token = getCookie("token");
+
+  const response = await axios.get(
+    `${baseUrl}/user/followorunfollow?r_id=${targetId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
 };
