@@ -30,6 +30,7 @@ const Login = () => {
       const response = await login(formData);
       setIsLoading(true);
       setCookie("token", response.token);
+      localStorage.setItem("userId", response.user._id)
 
       const from = location.state?.from?.pathname || "/home";
       setTimeout(() => {
