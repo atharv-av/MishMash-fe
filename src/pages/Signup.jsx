@@ -31,7 +31,7 @@ const Signup = () => {
       setIsLoading(true);
       setCookie("token", response.token);
 
-      const from = location.state?.from?.pathname || "/feed";
+      const from = location.state?.from?.pathname || "/home";
       setTimeout(() => {
         navigate(from, { replace: true });
       }, 1500);

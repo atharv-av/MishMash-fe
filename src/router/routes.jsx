@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "../wrappers/ProtectedRoute";
+import PublicRoute from "../wrappers/PublicRoute";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Feed from "../pages/Feed";
-import ProtectedRoute from "../wrappers/ProtectedRoute";
-import PublicRoute from "../wrappers/PublicRoute";
 import MyProfile from "../pages/MyProfile";
 import UserProfile from "../pages/UserProfile";
+import ViewPost from "../pages/ViewPost";
 
 const AppRoutes = () => {
   return (
@@ -48,6 +49,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/post/:id"
+          element={
+            <ProtectedRoute>
+              <ViewPost />
             </ProtectedRoute>
           }
         />

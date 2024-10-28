@@ -7,7 +7,7 @@ const PublicRoute = ({ children }) => {
   const token = getCookie('token');
 
   if (token) {
-    return <Navigate to="/feed" replace />;
+    return <Navigate to="/home" replace />;
   }
 
   return children;

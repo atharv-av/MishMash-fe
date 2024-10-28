@@ -55,3 +55,50 @@ export const getAllPosts = async () => {
     return { success: false, message: error.message };
   }
 };
+
+export const getUserPosts = async (author) => {
+  const token = getCookie("token");
+  try {
+    const response = await axios.get(
+      `${baseUrl}/post/userposts?author=${author}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data.posts;
+  } catch (error) {
+    console.error("Error fetching user posts:", error);
+    return [];
+  }
+};
+
+export const getPostById = async (postId) => {
+  const token = getCookie("token");
+
+  const response = await axios.get(`${baseUrl}/post?postId=${postId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data.post;
+};
+
+export const likeOrDislikePost = async (postId) => {
+  const token = getCookie("token");
+  try {
+    const response = await axios.get(
+      `${baseUrl}/post/likeordislike?postId=${postId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data.likes;
+  } catch (error) {
+    console.error("Error liking or disliking post:", error);
+    return null;
+  }
+};

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Tabs,
   TabsHeader,
@@ -7,6 +7,8 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 import { Clapperboard, Images } from "lucide-react";
+import UserPosts from "./UserPosts";
+import { getUser } from "../api/user";
 
 const data = [
   {
@@ -27,6 +29,19 @@ const data = [
 ];
 
 const ProfileContent = () => {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        const loggedUser = await getUser(userId);
+        setUser(loggedUser);
+      }
+    };
+
+    fetchUser();
+  }, []);
+  
   return (
     <div className="lg:w-2/3 w-full mx-auto mt-20">
       <Tabs value="Posts">
@@ -43,7 +58,7 @@ const ProfileContent = () => {
         <TabsBody>
           {data.map(({ value, desc }) => (
             <TabPanel key={value} value={value}>
-              {desc}
+              <UserPosts author={user?.user._id} />
             </TabPanel>
           ))}
         </TabsBody>

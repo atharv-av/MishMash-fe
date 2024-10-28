@@ -1,5 +1,6 @@
 import {
   EllipsisVertical,
+  Eye,
   Heart,
   MessageCircle,
   Pencil,
@@ -20,8 +21,10 @@ import {
   MenuItem,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { likeOrDislikePost } from "../api/post";
 
 const Post = ({
+  postId,
   redirectTo,
   fullname,
   profilePicture,
@@ -29,11 +32,18 @@ const Post = ({
   isMenu,
   description,
   media,
-  likes,
+  likes: initialLikes,
   comments,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
+
+  const [likes, setLikes] = useState(initialLikes);
+
+  const handleLike = async () => {
+    const updatedLikes = await likeOrDislikePost(postId);
+    if (updatedLikes) setLikes(updatedLikes.length);
+  };
 
   return (
     <div className="mt-4 flex flex-col gap-3 lg:w-11/12 p-4 bg-blue-50 rounded-lg">
@@ -110,7 +120,10 @@ const Post = ({
       </div>
       <div className="flex flex-row gap-3 self-start justify-between w-full">
         <div className="flex flex-row gap-3 self-start">
-          <div className="flex gap-1 text-red-500 cursor-pointer hover:text-red-700 hover:scale-110 transition duration-150 ease-in-out">
+          <div
+            onClick={handleLike}
+            className="flex gap-1 text-red-500 cursor-pointer hover:text-red-700 hover:scale-110 transition duration-150 ease-in-out"
+          >
             <Heart />
             <p>{likes}</p>
           </div>
@@ -119,9 +132,15 @@ const Post = ({
             <p>{comments}</p>
           </div>
         </div>
-        <div className="flex gap-1 text-green-500 cursor-pointer hover:text-green-700 hover:scale-110 transition duration-150 ease-in-out">
-          <Send />
-          <p>Share</p>
+        <div className="flex flex-row gap-3 self-end">
+          <div className="flex gap-1 text-green-500 cursor-pointer hover:text-green-700 hover:scale-110 transition duration-150 ease-in-out">
+            <Send />
+            <p>Share</p>
+          </div>
+          <Link to={`/post/${postId}`} className="flex gap-1 text-orange-500 cursor-pointer hover:text-orange-700 hover:scale-110 transition duration-150 ease-in-out">
+            <Eye />
+            <p>View</p>
+          </Link>
         </div>
       </div>
     </div>

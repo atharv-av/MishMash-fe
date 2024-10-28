@@ -33,6 +33,7 @@ const AllPosts = () => {
       {posts.map((post, index) => (
         <Post
           key={index}
+          postId={post._id}
           redirectTo={
             loggedUserId !== post.author
               ? `/profile/${post.author}`
