@@ -49,8 +49,8 @@ const SidebarHeader = () => {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center mt-2">
-        <p className="text-black text-lg">John Doe</p>
-        <p className="text-gray-500 text-sm">@johndoe</p>
+        <p className="text-black text-lg">{user?.user.fullname}</p>
+        <p className="text-gray-500 text-sm">@{user?.user.username}</p>
       </div>
     </>
   );

@@ -1,112 +1,54 @@
 import { Avatar } from "@material-tailwind/react";
-import {
-  Tabs,
-  TabsHeader,
-  TabsBody,
-  Tab,
-  TabPanel,
-} from "@material-tailwind/react";
+import { Tabs, TabsHeader, TabsBody, Tab, TabPanel } from "@material-tailwind/react";
 import { Clapperboard, Images } from "lucide-react";
 import placeholder from "../assets/placeholder.png";
-import React, { useState, useEffect } from "react";
-import { getUser, followOrUnfollow } from "../api/user"; // Import the follow/unfollow function
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUser, toggleFollowUser } from "../store/slices/userSlice";
 import Layout from "../wrappers/Layout";
+import Loader from "../components/Loader"
 
 const data = [
-  {
-    label: "Posts",
-    value: "Posts",
-    icon: Images,
-  },
-  {
-    label: "Clips",
-    value: "Clips",
-    icon: Clapperboard,
-  },
+  { label: "Posts", value: "Posts", icon: Images },
+  { label: "Clips", value: "Clips", icon: Clapperboard },
 ];
 
 const UserProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [isFollowing, setIsFollowing] = useState(false);
+  const dispatch = useDispatch();
+
+  const { user, isFollowing, loading, error } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const loggedUserId = localStorage.getItem("userId");
-      const targetUserId = id;
+    const loggedUserId = localStorage.getItem("userId");
+    dispatch(fetchUser(id));
+    if (loggedUserId === id) navigate("/myprofile");
+  }, [id, navigate, dispatch]);
 
-      try {
-        const targetUser = await getUser(targetUserId);
-        setUser(targetUser);
-        // Check if logged user is following the target user
-        setIsFollowing(targetUser.user.followers.includes(loggedUserId));
-        if (loggedUserId === id) {
-          navigate("/myprofile");
-        }
-      } catch (err) {
-        setError("Failed to fetch user profile.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, [id, navigate]);
-
-  const handleFollowUnfollow = async () => {
-    try {
-      await followOrUnfollow(id);
-
-      // Update following state
-      setIsFollowing((prev) => !prev); // Toggle following state
-
-      // Update user followers in local state
-      setUser((prevUser) => {
-        const loggedUserId = localStorage.getItem("userId");
-        const updatedFollowers = isFollowing
-          ? prevUser.user.followers.filter(followerId => followerId !== loggedUserId) // Remove logged user ID if unfollowing
-          : [...prevUser.user.followers, loggedUserId]; // Add logged user ID if following
-
-        return {
-          ...prevUser,
-          user: {
-            ...prevUser.user,
-            followers: updatedFollowers,
-          },
-        };
-      });
-    } catch (err) {
-      console.error("Failed to follow/unfollow user:", err);
-    }
+  const handleFollowUnfollow = () => {
+    dispatch(toggleFollowUser(id));
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div>{error}</div>;
 
   return (
     <Layout>
       <div className="flex bg-blue-200 md:w-2/3 mx-auto p-5 gap-5 rounded-2xl md:flex-row flex-col items-center justify-evenly">
-        <Avatar
-          size="xxl"
-          src={user?.user.profilePicture || placeholder}
-          alt="avatar"
-        />
+        <Avatar size="xxl" src={user?.profilePicture || placeholder} alt="avatar" />
         <div className="flex flex-col items-center gap-3">
           <div className="flex items-center gap-4">
-            <p>{user?.user.username}</p>
+            <p>{user?.username}</p>
           </div>
           <div className="flex items-center gap-4">
-            <p>{user?.user.posts.length} posts</p>
-            <p>{user?.user.followers.length} followers</p>
-            <p>{user?.user.following.length} following</p>
+            <p>{user?.posts.length} posts</p>
+            <p>{user?.followers.length} followers</p>
+            <p>{user?.following.length} following</p>
           </div>
-          <p>{user?.user.fullname}</p>
-          <p>{user?.user.about}</p>
-          {/* Follow/Unfollow Button */}
+          <p>{user?.fullname}</p>
+          <p>{user?.about}</p>
           <button
             onClick={handleFollowUnfollow}
             className={`mt-4 px-4 py-2 rounded ${
