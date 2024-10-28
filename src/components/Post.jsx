@@ -8,7 +8,14 @@ import {
   Trash2,
 } from "lucide-react";
 import placeholder from "../assets/placeholder.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { 
+  toggleLike, 
+  initializeLikes, 
+  selectLikeCount, 
+  selectLikeStatus 
+} from '../store/slices/likeSlice';
 
 import {
   Button,
@@ -21,7 +28,6 @@ import {
   MenuItem,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import { likeOrDislikePost } from "../api/post";
 
 const Post = ({
   postId,
@@ -35,14 +41,23 @@ const Post = ({
   likes: initialLikes,
   comments,
 }) => {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
-  const [likes, setLikes] = useState(initialLikes);
+  // Initialize likes in Redux store
+  useEffect(() => {
+    dispatch(initializeLikes({ postId, count: initialLikes }));
+  }, [dispatch, postId, initialLikes]);
+
+  // Get likes count and status from Redux store using selectors
+  const likeCount = useSelector(state => selectLikeCount(state, postId));
+  const likeStatus = useSelector(selectLikeStatus);
 
   const handleLike = async () => {
-    const updatedLikes = await likeOrDislikePost(postId);
-    if (updatedLikes) setLikes(updatedLikes.length);
+    if (likeStatus !== 'loading') {
+      dispatch(toggleLike(postId));
+    }
   };
 
   return (
@@ -74,7 +89,7 @@ const Post = ({
                 <Pencil size={18} />
               </MenuItem>
               <MenuItem
-                onClick={() => handleOpen()}
+                onClick={handleOpen}
                 className="flex items-center justify-between text-red-500"
               >
                 <p>Delete</p>
@@ -97,9 +112,7 @@ const Post = ({
             <Button
               variant="gradient"
               color="red"
-              onClick={() => {
-                handleOpen();
-              }}
+              onClick={handleOpen}
             >
               <span>Confirm</span>
             </Button>
@@ -122,10 +135,12 @@ const Post = ({
         <div className="flex flex-row gap-3 self-start">
           <div
             onClick={handleLike}
-            className="flex gap-1 text-red-500 cursor-pointer hover:text-red-700 hover:scale-110 transition duration-150 ease-in-out"
+            className={`flex gap-1 text-red-500 cursor-pointer hover:text-red-700 hover:scale-110 transition duration-150 ease-in-out ${
+              likeStatus === 'loading' ? 'opacity-50' : ''
+            }`}
           >
             <Heart />
-            <p>{likes}</p>
+            <p>{likeCount}</p>
           </div>
           <div className="flex gap-1 text-blue-500 cursor-pointer hover:text-blue-700 hover:scale-110 transition duration-150 ease-in-out">
             <MessageCircle />
