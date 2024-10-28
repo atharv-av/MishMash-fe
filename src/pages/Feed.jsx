@@ -2,7 +2,7 @@ import Layout from "../wrappers/Layout";
 import SearchBar from "../components/SearchBar";
 import NewPost from "../components/NewPost";
 import Suggestions from "../components/Suggestions";
-import Post from "../components/Post";
+import AllPosts from "../components/AllPosts";
 
 const Feed = () => {
   return (
@@ -11,7 +11,7 @@ const Feed = () => {
         <div className="w-full">
           <SearchBar />
           <NewPost />
-          <Post />
+          <AllPosts />
         </div>
         <div className="w-1/2 lg:flex hidden">
           <Suggestions />
